@@ -231,11 +231,3 @@ _Pvt_Extensions
 
 # Paket dependency manager
 .paket/paket.exe
-
-# FAKE - F# Make
-.fake/
-/WPFHexaEditor.Control/Properties
-/WPFHexaEditor.Control/Properties
-/WPFHexaEditor.Control/Properties/resources1.Designer.cs
-/WPFHexaEditor.Control/Properties/Resources.fr-CA.resx
-/WPFHexaEditorExample/Window1.xaml
