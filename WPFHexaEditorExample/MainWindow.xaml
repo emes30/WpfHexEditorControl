@@ -249,7 +249,7 @@
                 DataStringVisual="Hexadecimal"
                 DefaultCopyToClipboardMode="HexaString"
                 ForegroundSecondColor="#FFA0A0A0"
-                OffSetStringVisual="Hexadecimal" FontFamily="Consolas" FontWeight="Bold" FontSize="14" Background="#FF252525" Foreground="#FF818181" ForegroundHighLightOffSetHeaderColor="White" AutoHighLiteSelectionByteBrush="#664A7280" MouseOverColor="#CC36576C" SelectionFirstColor="#FF2E4164" SelectionSecondColor="#FF3F4853" />
+                OffSetStringVisual="Hexadecimal" FontFamily="Consolas" FontWeight="Bold" FontSize="14" Background="#FF252525" Foreground="#FF818181" ForegroundHighLightOffSetHeaderColor="White" AutoHighLiteSelectionByteBrush="#66283B42" MouseOverColor="#CC36576C" SelectionFirstColor="#FF2E4164" SelectionSecondColor="#FF3F4853" />
         </DockPanel>
     </Grid>
 </Window>

@@ -102,6 +102,11 @@ namespace WpfHexaEditor
         /// </summary>
         private FirstColor _firstColor = FirstColor.HexByteData;
 
+        /// <summary>
+        /// Holds highlight ranges
+        /// </summary>
+        private HighlightRangeList _highlightRanges = new HighlightRangeList();
+
         #endregion Global Class variables
 
         #region Events
@@ -2531,6 +2536,9 @@ namespace WpfHexaEditor
                 TraverseHexAndStringBytes(ctrl => ctrl.IsHighLight = _markedPositionList.ContainsKey(ctrl.BytePositionInFile));
             else //Un highlight all            
                 TraverseHexAndStringBytes(ctrl => ctrl.IsHighLight = false);
+
+            if (_highlightRanges.Count>0)
+                TraverseHexAndStringBytes(ctrl => ctrl.IsHighLight = (_highlightRanges.GetHighlightBrush(ctrl.BytePositionInFile) != null));
         }
 
         /// <summary>
@@ -3931,6 +3939,13 @@ namespace WpfHexaEditor
             {
                 if (ctrl.IsSelected)
                     ctrl.IsHighLight = true;
+            });
+
+            _highlightRanges.Add(new HighlightRange()
+            {
+                StartPosition = minSelect,
+                EndPosition = maxSelect,
+                HighlightBrush = HighLightColor
             });
         }
 

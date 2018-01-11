@@ -28,6 +28,7 @@ namespace WpfHexaEditor
         private bool _isSelected;
         private bool _isHighLight;
         private bool _isMouseOver;
+        private bool _isAutoHighlight;
         private ByteAction _action = ByteAction.Nothing;
         private byte? _byte;
 
@@ -291,9 +292,11 @@ namespace WpfHexaEditor
                 dc.DrawRectangle(Background, null, new Rect(0, 0, RenderSize.Width, RenderSize.Height));
             if (_isMouseOver)
                 dc.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Lime, 1), new Rect(0, 0, RenderSize.Width, RenderSize.Height));
+            if (_isAutoHighlight)
+                dc.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Red, .5), new Rect(0, 0, RenderSize.Width, RenderSize.Height));
 
-                //Draw text
-                var typeface = new Typeface(_parent.FontFamily, _parent.FontStyle, FontWeight, _parent.FontStretch);
+            //Draw text
+            var typeface = new Typeface(_parent.FontFamily, _parent.FontStyle, FontWeight, _parent.FontStretch);
             var formatedText = new FormattedText(Text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
                 typeface, _parent.FontSize, Foreground, VisualTreeHelper.GetDpi(this).PixelsPerDip);
 
@@ -302,10 +305,17 @@ namespace WpfHexaEditor
 
         private void UpdateAutoHighLiteSelectionByteVisual()
         {
+            _isAutoHighlight = false;
+
             //Auto highlite selectionbyte
             if (_parent.AllowAutoHightLighSelectionByte && _parent.SelectionByte != null &&
                 Byte == _parent.SelectionByte && !IsSelected)
-                Background = _parent.AutoHighLiteSelectionByteBrush;
+            {
+                if (!IsHighLight)
+                    Background = _parent.AutoHighLiteSelectionByteBrush;
+
+                _isAutoHighlight = true;
+            }
         }
 
         internal void UpdateLabelFromByte()
