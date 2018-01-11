@@ -2271,8 +2271,6 @@ namespace WpfHexaEditor
                 HexDataStackPanel.Children.Clear();
             }
 
-            _caret.CaretHeight = LineHeight - 1;
-
             for (var lineIndex = StringDataStackPanel.Children.Count; lineIndex < maxline; lineIndex++)
             {
                 #region Build StringByte
@@ -3739,6 +3737,12 @@ namespace WpfHexaEditor
 
         public bool IsCaretVisible => _caret.IsVisibleCaret;
 
+        internal void SetCaretSize(double width, double height )
+        {
+            _caret.CaretWidth = width;
+            _caret.CaretHeight = height;
+        }
+
         #endregion
 
         #region Append/expend bytes to end of file
@@ -3914,5 +3918,21 @@ namespace WpfHexaEditor
         }
 
         #endregion
+
+        /// <summary>
+        /// Highlight current selection.
+        /// </summary>
+        public void HighlightCurrentSelection()
+        {
+            var minSelect = SelectionStart <= SelectionStop ? SelectionStart : SelectionStop;
+            var maxSelect = SelectionStart <= SelectionStop ? SelectionStop : SelectionStart;
+
+            TraverseHexAndStringBytes(ctrl =>
+            {
+                if (ctrl.IsSelected)
+                    ctrl.IsHighLight = true;
+            });
+        }
+
     }
 }

@@ -14,21 +14,28 @@ using System.Threading;
 
 namespace WpfHexaEditor.Core
 {
+    public enum CaretMode { Insert, Overwrite };
+
     public sealed class Caret : FrameworkElement, INotifyPropertyChanged
     {
         #region Global class variables
         private Timer _timer;
         private Point _position;
         private readonly Pen _pen = new Pen(Brushes.Black, 1);
+        private readonly Brush _brush = new SolidColorBrush(Colors.Black);
         private int _blinkPeriod = 500;
-        private double _caretHeight = 28;
+        private double _caretHeight = 14;
+        private double _caretWidth = 11;
         private bool _hide;
+        private CaretMode _caretMode = CaretMode.Overwrite;
         #endregion
 
         #region Constructor
         public Caret()
         {
             _pen.Freeze();
+            _brush.Opacity = .5;
+            IsHitTestVisible = false;
             InitializeTimer();
             Hide();
         }
@@ -37,6 +44,8 @@ namespace WpfHexaEditor.Core
         {
             _pen.Brush = brush;
             _pen.Freeze();
+            _brush.Opacity = .5;
+            IsHitTestVisible = false;
             InitializeTimer();
             Hide();
         }
@@ -69,12 +78,24 @@ namespace WpfHexaEditor.Core
             get => _caretHeight;
             set
             {
-                _caretHeight = value;
+                if (_caretHeight != value)
+                {
+                    _caretHeight = value;
 
-                InitializeTimer();
+                    //InitializeTimer();
 
-                OnPropertyChanged(nameof(CaretHeight));
+                    OnPropertyChanged(nameof(CaretHeight));
+                }
             }
+        }
+
+        /// <summary>
+        /// Width of the caret
+        /// </summary>
+        public double CaretWidth
+        {
+            get => _caretWidth;
+            set => _caretWidth = value;
         }
 
         /// <summary>
@@ -137,6 +158,11 @@ namespace WpfHexaEditor.Core
                 OnPropertyChanged(nameof(BlinkPeriod));
             }
         }
+
+        /// <summary>
+        /// Caret display mode. Line for Insert, Block for Overwrite
+        /// </summary>
+        public CaretMode CaretMode => _caretMode;
 
         #endregion
 
@@ -205,7 +231,15 @@ namespace WpfHexaEditor.Core
         protected override void OnRender(DrawingContext dc)
         {
             if (Visible)
-                dc.DrawLine(_pen, _position, new Point(Left, _position.Y + CaretHeight));
+                switch(_caretMode)
+                {
+                    case CaretMode.Insert:
+                        dc.DrawLine(_pen, _position, new Point(Left, _position.Y + CaretHeight));
+                        break;
+                    case CaretMode.Overwrite:
+                        dc.DrawRectangle(_brush, _pen, new Rect(Left, _position.Y, _caretWidth, CaretHeight));
+                        break;
+                }
         }
         #endregion
 

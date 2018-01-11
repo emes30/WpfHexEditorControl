@@ -27,6 +27,7 @@ namespace WpfHexaEditor
         private readonly HexEditor _parent;
         private bool _isSelected;
         private bool _isHighLight;
+        private bool _isMouseOver;
         private ByteAction _action = ByteAction.Nothing;
         private byte? _byte;
 
@@ -288,9 +289,11 @@ namespace WpfHexaEditor
             //Draw background
             if (Background != null)
                 dc.DrawRectangle(Background, null, new Rect(0, 0, RenderSize.Width, RenderSize.Height));
+            if (_isMouseOver)
+                dc.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Lime, 1), new Rect(0, 0, RenderSize.Width, RenderSize.Height));
 
-            //Draw text
-            var typeface = new Typeface(_parent.FontFamily, _parent.FontStyle, FontWeight, _parent.FontStretch);
+                //Draw text
+                var typeface = new Typeface(_parent.FontFamily, _parent.FontStyle, FontWeight, _parent.FontStretch);
             var formatedText = new FormattedText(Text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
                 typeface, _parent.FontSize, Foreground, VisualTreeHelper.GetDpi(this).PixelsPerDip);
 
@@ -544,9 +547,12 @@ namespace WpfHexaEditor
 
         protected override void OnMouseEnter(MouseEventArgs e)
         {
-            if (Byte != null && Action != ByteAction.Modified && Action != ByteAction.Deleted &&
-                Action != ByteAction.Added && !IsSelected && !IsHighLight)
+            if (Byte != null) // && Action != ByteAction.Modified && Action != ByteAction.Deleted &&
+                              //Action != ByteAction.Added && !IsSelected && !IsHighLight)
+            {
                 Background = _parent.MouseOverColor;
+                _isMouseOver = true;
+            }
 
             UpdateAutoHighLiteSelectionByteVisual();
 
@@ -559,9 +565,13 @@ namespace WpfHexaEditor
         protected override void OnMouseLeave(MouseEventArgs e)
         {
 
-            if (Byte != null && Action != ByteAction.Modified && Action != ByteAction.Deleted &&
-                Action != ByteAction.Added && !IsSelected && !IsHighLight)
+            if (Byte != null) // && Action != ByteAction.Modified && Action != ByteAction.Deleted &&
+                              //Action != ByteAction.Added && !IsSelected && !IsHighLight)
+            {
                 Background = Brushes.Transparent;
+                _isMouseOver = false;
+                UpdateVisual();
+            }
 
             UpdateAutoHighLiteSelectionByteVisual();
 
@@ -602,21 +612,23 @@ namespace WpfHexaEditor
                 _parent.HideCaret();
             else
             {
-                var width = Text[1].ToString()
+                var size = Text[1].ToString()
                     .GetScreenSize(_parent.FontFamily, _parent.FontSize, _parent.FontStyle, FontWeight,
-                        _parent.FontStretch).Width.Round(0);
-                
+                        _parent.FontStretch);
+
+                _parent.SetCaretSize(Width / 2, size.Height);
+
                 switch (_keyDownLabel)
                 {
                     case KeyDownLabel.FirstChar:
                         _parent.MoveCaret(TransformToAncestor(_parent).Transform(new Point(0, 0)));
                         break;
                     case KeyDownLabel.SecondChar:
-                        _parent.MoveCaret(TransformToAncestor(_parent).Transform(new Point(width, 0)));
+                        _parent.MoveCaret(TransformToAncestor(_parent).Transform(new Point(size.Width + 1, 0)));
                         break;
                     case KeyDownLabel.NextPosition:
                         if (_parent.Lenght == BytePositionInFile + 1)
-                            _parent.MoveCaret(TransformToAncestor(_parent).Transform(new Point(width * 2, 0)));
+                            _parent.MoveCaret(TransformToAncestor(_parent).Transform(new Point(size.Width * 2, 0)));
                         break;
                 }
             }

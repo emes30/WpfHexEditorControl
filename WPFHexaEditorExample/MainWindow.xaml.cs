@@ -305,5 +305,10 @@ namespace WPFHexaEditorExample
             };
             window.Show();
         }
+
+        private void HighlightSelectionClick(object sender, RoutedEventArgs e)
+        {
+            HexEdit.HighlightCurrentSelection();
+        }
     }
 }
