@@ -222,7 +222,12 @@
                 </MenuItem>
 
                 <MenuItem Click="TESTMenuItem_Click" Header="TEST" >
-                    <MenuItem Header="Highlight" Click="HighlightSelectionClick"/>
+                    <MenuItem Header="Highlight">
+                        <MenuItem Background="#FFFFFD80" Click="HighlightBrushClick"/>
+                        <MenuItem Background="#FFFF8080" Click="HighlightBrushClick"/>
+                        <MenuItem Background="#FF75FF75" Click="HighlightBrushClick"/>
+                        <MenuItem Background="#FF80FFFF" Click="HighlightBrushClick"/>
+                    </MenuItem>
                 </MenuItem>
                 <control:HexBox
                     x:Name="HbBsl"

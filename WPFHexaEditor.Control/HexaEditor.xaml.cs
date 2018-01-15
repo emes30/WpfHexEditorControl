@@ -513,7 +513,7 @@ namespace WpfHexaEditor
             ctrl.TraverseHexBytes(hctrl =>
             {
                 hctrl.UpdateDataVisualWidth();
-                hctrl.UpdateLabelFromByte();
+                //hctrl.UpdateLabelFromByte();
             });
         }
 
@@ -1998,6 +1998,7 @@ namespace WpfHexaEditor
         {
             var visibleLine = MaxVisibleLine;
             var cnt = 0;
+            int count = 0;
 
             //HexByte panel
             foreach (StackPanel hexDataStack in HexDataStackPanel.Children)
@@ -2005,7 +2006,10 @@ namespace WpfHexaEditor
                 if (cnt++ == visibleLine) break;
                 foreach (var ctrl in hexDataStack.Children)
                     if (ctrl is HexByte hexCtrl)
+                    {
                         act(hexCtrl);
+                        count++;
+                    }
 
                 if (exit) return;
             }
@@ -2532,13 +2536,13 @@ namespace WpfHexaEditor
         /// </summary>
         private void UpdateHighLight()
         {
-            if (_markedPositionList.Count > 0)
-                TraverseHexAndStringBytes(ctrl => ctrl.IsHighLight = _markedPositionList.ContainsKey(ctrl.BytePositionInFile));
-            else //Un highlight all            
-                TraverseHexAndStringBytes(ctrl => ctrl.IsHighLight = false);
+            //if (_markedPositionList.Count > 0)
+            //    TraverseHexAndStringBytes(ctrl => ctrl.IsHighLight = _markedPositionList.ContainsKey(ctrl.BytePositionInFile));
+            //else //Un highlight all            
+            //    TraverseHexAndStringBytes(ctrl => ctrl.IsHighLight = false);
 
             if (_highlightRanges.Count>0)
-                TraverseHexAndStringBytes(ctrl => ctrl.IsHighLight = (_highlightRanges.GetHighlightBrush(ctrl.BytePositionInFile) != null));
+                TraverseHexAndStringBytes(ctrl => ctrl.HighlightBrush = _highlightRanges.GetHighlightBrush(ctrl.BytePositionInFile));
         }
 
         /// <summary>
@@ -3930,22 +3934,24 @@ namespace WpfHexaEditor
         /// <summary>
         /// Highlight current selection.
         /// </summary>
-        public void HighlightCurrentSelection()
+        public void HighlightCurrentSelection(Brush brush = null)
         {
             var minSelect = SelectionStart <= SelectionStop ? SelectionStart : SelectionStop;
             var maxSelect = SelectionStart <= SelectionStop ? SelectionStop : SelectionStart;
 
+            brush = brush ?? HighLightColor;
+
             TraverseHexAndStringBytes(ctrl =>
             {
                 if (ctrl.IsSelected)
-                    ctrl.IsHighLight = true;
+                    ctrl.HighlightBrush = brush;
             });
 
             _highlightRanges.Add(new HighlightRange()
             {
                 StartPosition = minSelect,
                 EndPosition = maxSelect,
-                HighlightBrush = HighLightColor
+                HighlightBrush = brush
             });
         }
 

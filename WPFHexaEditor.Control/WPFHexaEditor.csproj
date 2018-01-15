@@ -59,6 +59,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseByte.cs" />
     <Compile Include="Core\Caret.cs" />
     <Compile Include="Core\HighlightRange.cs" />
     <Compile Include="Core\Interfaces\IByteModified.cs" />

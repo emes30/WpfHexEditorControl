@@ -310,5 +310,10 @@ namespace WPFHexaEditorExample
         {
             HexEdit.HighlightCurrentSelection();
         }
+
+        private void HighlightBrushClick(object sender, RoutedEventArgs e)
+        {
+            HexEdit.HighlightCurrentSelection((sender as MenuItem).Background);
+        }
     }
 }
