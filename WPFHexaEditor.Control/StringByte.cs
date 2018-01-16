@@ -205,6 +205,8 @@ namespace WpfHexaEditor
             }
 
             UpdateAutoHighLiteSelectionByteVisual();
+
+            InvalidateVisual();
         }
 
         /// <summary>
@@ -215,6 +217,10 @@ namespace WpfHexaEditor
             //Draw background
             if (Background != null)
                 dc.DrawRectangle(Background, null, new Rect(0, 0, RenderSize.Width, RenderSize.Height));
+            if (_isMouseOver)
+                dc.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Lime, 1), new Rect(0, 0, RenderSize.Width, RenderSize.Height));
+            if (_isAutoHighlight)
+                dc.DrawRectangle(_parent.AutoHighLiteSelectionByteBrush, new Pen(Brushes.Red, .5), new Rect(0, 0, RenderSize.Width, RenderSize.Height));
 
             //Draw text
             var typeface = new Typeface(_parent.FontFamily, _parent.FontStyle, FontWeight, _parent.FontStretch);

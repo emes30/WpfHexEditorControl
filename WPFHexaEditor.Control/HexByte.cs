@@ -72,7 +72,7 @@ namespace WpfHexaEditor
             if (_isMouseOver)
                 dc.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Lime, 1), new Rect(0, 0, RenderSize.Width, RenderSize.Height));
             if (_isAutoHighlight)
-                dc.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Red, .5), new Rect(0, 0, RenderSize.Width, RenderSize.Height));
+                dc.DrawRectangle(_parent.AutoHighLiteSelectionByteBrush, new Pen(Brushes.Red, .5), new Rect(0, 0, RenderSize.Width, RenderSize.Height));
 
             //Draw text
             var typeface = new Typeface(_parent.FontFamily, _parent.FontStyle, FontWeight, _parent.FontStretch);

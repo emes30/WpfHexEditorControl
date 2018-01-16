@@ -261,6 +261,8 @@ namespace WpfHexaEditor
             }
 
             UpdateAutoHighLiteSelectionByteVisual();
+
+            InvalidateVisual();
         }
 
         protected void UpdateAutoHighLiteSelectionByteVisual()
