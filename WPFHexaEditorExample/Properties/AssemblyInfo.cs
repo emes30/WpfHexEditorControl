@@ -1,4 +1,5 @@
-﻿//////////////////////////////////////////////
+
+//////////////////////////////////////////////
 // Apache 2.0  - 2016-2017
 // Author : Derek Tremblay (derektremblay666@gmail.com)
 //////////////////////////////////////////////
@@ -15,7 +16,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("WPFHexaEditorExample")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("Copyright �  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

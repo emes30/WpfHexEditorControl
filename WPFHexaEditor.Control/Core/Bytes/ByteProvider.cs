@@ -1,4 +1,5 @@
-﻿//////////////////////////////////////////////
+
+//////////////////////////////////////////////
 // Apache 2.0  - 2016-2017
 // Author : Derek Tremblay (derektremblay666@gmail.com)
 //////////////////////////////////////////////
@@ -1333,7 +1334,7 @@ namespace WpfHexaEditor.Core.Bytes
 
         #region IDisposable Support
 
-        private bool _disposedValue; // Pour détecter les appels redondants
+        private bool _disposedValue; // Pour d�tecter les appels redondants
 
         private void Dispose(bool disposing)
         {
